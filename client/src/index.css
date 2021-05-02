@@ -1,3 +1,13 @@
+body {
+  background: linear-gradient(90deg, #017092 21px, transparent 1%) center, linear-gradient(#017092 21px, transparent 1%) center, #a799cc;
+  background-size: 22px 22px;
+}
+
+
 .primaryBg {
-  background-color: rgb(255, 95, 37);
+  background-color: #025872;
+}
+
+.lightBg {
+  background-color: rgba(255, 255, 255, 0.5);
 }

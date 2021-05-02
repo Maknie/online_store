@@ -21,7 +21,7 @@ const CreateType = ({show, onHide}) => {
         >
             <Modal.Header closeButton>
                 <Modal.Title id="contained-modal-title-vcenter">
-                    Добавить тип
+                    Add category
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
@@ -29,13 +29,13 @@ const CreateType = ({show, onHide}) => {
                     <Form.Control
                         value={value}
                         onChange={e => setValue(e.target.value)}
-                        placeholder={"Введите название типа"}
+                        placeholder={"Enter the name of category"}
                     />
                 </Form>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="outline-danger" onClick={onHide}>Закрыть</Button>
-                <Button variant="outline-success" onClick={addType}>Добавить</Button>
+                <Button variant="danger" onClick={onHide}>Close</Button>
+                <Button variant="success" onClick={addType}>Save</Button>
             </Modal.Footer>
         </Modal>
     );
