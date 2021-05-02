@@ -1,21 +1,17 @@
 import React, { useState, useContext, useEffect } from "react";
 import { Button, Container } from "react-bootstrap";
-import CreateDevice from "../components/modals/CreateDevice";
+import CreateImage from "../components/modals/CreateImage";
 import CreateType from "../components/modals/CreateType";
-import { Context } from "../index";
 import { observer } from "mobx-react-lite";
 import { Pie } from "react-chartjs-2";
 import { $host } from "../http/index";
 
 const Admin = observer(() => {
-  const { device } = useContext(Context);
 
   const [typeVisible, setTypeVisible] = useState(false);
   const [deviceVisible, setDeviceVisible] = useState(false);
 
   const [deviceCats, setDeviceCats] = useState([]);
-  const [devicePrices, setDevicePrices] = useState([]);
-  const [images, setImages] = useState([]);
   const [imageCatCount, setImageCatCount] = useState({});
   const [categories, setCategories] = useState([]);
 
@@ -26,7 +22,6 @@ const Admin = observer(() => {
 
   useEffect(async () => {
     let tempDeviceCats = [];
-    let tempDevicePrices = [];
     let tempImageCatCount = [];
     for (let i = 0; i < categories.length; i++) {
       tempDeviceCats.push(categories[i].name);
@@ -34,6 +29,7 @@ const Admin = observer(() => {
       const { data } = await $host.get("api/device", {
         params: {
           typeId: tempCatId,
+          brandId: null,
           page: 1,
           limit: 99,
         },
@@ -42,13 +38,7 @@ const Admin = observer(() => {
     }
     setImageCatCount(tempImageCatCount);
     setDeviceCats(tempDeviceCats);
-    setDevicePrices(tempDevicePrices);
   }, [categories]);
-
-  useEffect(async () => {
-    console.log(imageCatCount);
-    console.log(categories);
-  }, [imageCatCount, categories]);
 
   return (
     <Container className="d-flex flex-column">
@@ -70,7 +60,7 @@ const Admin = observer(() => {
         </Button>
       </div>
 
-      <CreateDevice
+      <CreateImage
         show={deviceVisible}
         onHide={() => setDeviceVisible(false)}
       />

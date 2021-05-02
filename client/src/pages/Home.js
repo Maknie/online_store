@@ -2,17 +2,18 @@ import React, { useContext, useState, useEffect } from "react";
 import { Container } from "react-bootstrap";
 import { Row, Col } from "react-bootstrap";
 import TypeBar from "../components/TypeBar";
-import DeviceItem from "../components/DeviceItem";
+import ImageItem from "../components/ImageItem";
 import { observer } from "mobx-react-lite";
 import { Context } from "../index";
-import { fetchDevices, fetchTypes } from "../http/deviceAPI";
+import { fetchBrands, fetchDevices, fetchTypes } from "../http/imageAPI";
 import Pages from "../components/Pages";
 
-const Shop = observer(() => {
+const Home = observer(() => {
   const { device } = useContext(Context);
 
   useEffect(() => {
     fetchTypes().then((data) => device.setTypes(data));
+    fetchBrands().then((data) => device.setBrands(data));
     fetchDevices(null, null, 1, 10).then((data) => {
       device.setDevices(data.rows);
       device.setTotalCount(data.count);
@@ -20,11 +21,11 @@ const Shop = observer(() => {
   }, []);
 
   useEffect(() => {
-    fetchDevices(device.selectedType.id, device.page, 10).then((data) => {
+    fetchDevices(device.selectedType.id, null, device.page, 10).then((data) => {
       device.setDevices(data.rows);
       device.setTotalCount(data.count);
     });
-  }, [device.page, device.selectedType]);
+  }, [device.page, device.selectedType, device.selectedBrand]);
 
   return (
     <Container>
@@ -35,10 +36,12 @@ const Shop = observer(() => {
         <TypeBar />
       </Row>
 
+      {/* <BrandBar/> */}
+
       <Row>
         {device.devices.map((device) => (
           <Col key={device.id} sm={12} md={6} lg={4} xl={3}>
-            <DeviceItem device={device} />
+            <ImageItem device={device} />
           </Col>
         ))}
       </Row>
@@ -47,4 +50,4 @@ const Shop = observer(() => {
   );
 });
 
-export default Shop;
+export default Home;

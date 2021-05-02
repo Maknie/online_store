@@ -2,24 +2,14 @@ import React, { useContext, useEffect, useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import { Button, Dropdown, Form, Row, Col } from "react-bootstrap";
 import { Context } from "../../index";
-import {
-  createDevice,
-  fetchDevices,
-  fetchTypes,
-} from "../../http/deviceAPI";
+import { createDevice, fetchTypes } from "../../http/imageAPI";
 import { observer } from "mobx-react-lite";
 
-const CreateDevice = observer(({ show, onHide }) => {
+const CreateImage = observer(({ show, onHide }) => {
   const { device } = useContext(Context);
   const [name, setName] = useState("");
-  const [price, setPrice] = useState(null);
+  const [price, setPrice] = useState(0);
   const [file, setFile] = useState(null);
-  const [info, setInfo] = useState([
-    {
-      title: "Nice",
-      description: "Image",
-    },
-  ]);
 
   useEffect(() => {
     fetchTypes().then((data) => device.setTypes(data));
@@ -34,8 +24,17 @@ const CreateDevice = observer(({ show, onHide }) => {
     formData.append("name", name);
     formData.append("price", `${price}`);
     formData.append("img", file);
+    formData.append("brandId", device.selectedType.id);
     formData.append("typeId", device.selectedType.id);
-    formData.append("info", JSON.stringify(info));
+    formData.append(
+      "info",
+      JSON.stringify([
+        {
+          title: "Nice",
+          description: "Image",
+        },
+      ])
+    );
     createDevice(formData).then((data) => onHide());
   };
 
@@ -81,39 +80,6 @@ const CreateDevice = observer(({ show, onHide }) => {
             </Col>
           </Row>
           <Form.Control className="mt-3" type="file" onChange={selectFile} />
-          <hr />
-          {/* <Button
-                        variant={"outline-dark"}
-                        onClick={addInfo}
-                    >
-                        Добавить новое свойство
-                    </Button>
-                    {info.map(i =>
-                        <Row className="mt-4" key={i.number}>
-                            <Col md={4}>
-                                <Form.Control
-                                    value={i.title}
-                                    onChange={(e) => changeInfo('title', e.target.value, i.number)}
-                                    placeholder="Введите название свойства"
-                                />
-                            </Col>
-                            <Col md={4}>
-                                <Form.Control
-                                    value={i.description}
-                                    onChange={(e) => changeInfo('description', e.target.value, i.number)}
-                                    placeholder="Введите описание свойства"
-                                />
-                            </Col>
-                            <Col md={4}>
-                                <Button
-                                    onClick={() => removeInfo(i.number)}
-                                    variant={"outline-danger"}
-                                >
-                                    Удалить
-                                </Button>
-                            </Col>
-                        </Row>
-                    )} */}
         </Form>
       </Modal.Body>
       <Modal.Footer>
@@ -128,4 +94,4 @@ const CreateDevice = observer(({ show, onHide }) => {
   );
 });
 
-export default CreateDevice;
+export default CreateImage;

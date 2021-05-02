@@ -3,9 +3,9 @@ import { Card, Col } from "react-bootstrap";
 import Image from "react-bootstrap/Image";
 import { useHistory } from "react-router-dom";
 import { DEVICE_ROUTE } from "../utils/consts";
-import ImageMore from "../components/modals/ImageMore";
+import ImageMore from "./modals/ImageMore";
 
-const DeviceItem = ({ device }) => {
+const ImageItem = ({ device }) => {
   const history = useHistory();
   const [moreVisible, setMoreVisible] = useState(false);
 
@@ -23,4 +23,4 @@ const DeviceItem = ({ device }) => {
   );
 };
 
-export default DeviceItem;
+export default ImageItem;
